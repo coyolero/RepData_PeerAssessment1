@@ -8,7 +8,7 @@ output:
 
 ## Loading and preprocessing the data
 
-```{r}
+```{r echo=TRUE}
 library(dplyr)
 myDf <- read.csv("activity.csv")
 myDf <- na.omit(tbl_df(myDf))
@@ -18,7 +18,10 @@ head(myDf)
 
 ## What is mean total number of steps taken per day?
 
-```{r}
+### 1. Make a histogram of the total number of steps taken each day
+
+* prepares the data.
+```{r echo=TRUE}
 library(ggplot2)
 stepsByDay <- 
     myDf %>%
@@ -29,17 +32,14 @@ stepsByDay <-
 head(stepsByDay)
 ```
 
-
-### 1. Make a histogram of the total number of steps taken each day
-
-```{r}
+```{r echo=TRUE}
 qplot(steps, data = stepsByDay, fill = date)
 ```
 
 
 ### 2. Calculate and report the mean and median total number of steps taken per day.
 
-```{r}
+```{r echo=TRUE}
 mean(stepsByDay$steps)
 median(stepsByDay$steps)
 ```
@@ -55,14 +55,14 @@ median(stepsByDay$steps)
 ### and the average number of steps taken, averaged across all days (y-axis)
 
 * Prepares the data
-```{r}
+```{r echo=TRUE}
 stepsByInterval <- aggregate(steps~interval, data=myDf,mean)
 head(stepsByInterval)
 ```
 
 
 * Makes the plot.
-```{r}
+```{r echo=TRUE}
 ga <- ggplot(data = stepsByInterval, aes(x=interval, y = steps))
 ga <- ga + geom_line()
 ga <- ga + xlab("5 minute interval")
@@ -75,7 +75,7 @@ ga
 ### Which 5-minute interval, on average across all the days in the dataset,
 ### contains the maximum number of steps?
 
-```{r}
+```{r echo=TRUE}
 stepsByInterval[which.max(stepsByInterval$steps),]
 ```
 
@@ -87,7 +87,7 @@ stepsByInterval[which.max(stepsByInterval$steps),]
 ### (i.e. the total number of rows with NAs)
 
 * Read with missing values.
-```{r}
+```{r echo=TRUE}
 myDfWithNa <- read.csv("activity.csv")
 head(myDfWithNa)
 sum(is.na(myDfWithNa))
@@ -99,7 +99,7 @@ sum(is.na(myDfWithNa))
 ### strategy does not need to be sophisticated. For example, you could use
 ### the mean/median for that day, or the mean for that 5-minute interval, etc.
 
-```{r}
+```{r echo=TRUE}
 fillNaByInterval <- function (interval) {
     stepsByInterval[stepsByInterval$interval == interval,]$steps
 }
@@ -111,7 +111,7 @@ fillNaByInterval <- function (interval) {
 ### missing data filled in.
 
 
-```{r}
+```{r echo=TRUE}
 myDfFilled <- myDfWithNa
 
 for(i in 1:nrow(myDfFilled)) {
@@ -128,7 +128,7 @@ head(myDfFilled)
 ### 4. Make a histogram of the total number of steps taken each day and Calculate
 ### and report the mean and median total number of steps taken per day. 
 
-```{r}
+```{r echo=TRUE}
 
 library(ggplot2)
 
@@ -143,18 +143,18 @@ head(stepsByDayFilled)
 
 ### 1. Make a histogram of the total number of steps taken each day
 
-```{r}
+```{r echo=TRUE}
 qplot(steps, data = stepsByDayFilled, fill = date)
 ```
 
 * The mean number of steps taken per day is
-```{r}
+```{r echo=TRUE}
 mean(stepsByDayFilled$steps)
 ```
 
 
 * The median number of steps taken per day
-```{r}
+```{r echo=TRUE}
 median(stepsByDayFilled$steps)
 ```
 
@@ -176,7 +176,7 @@ median(stepsByDayFilled$steps)
 
 [Find the day of a week in R](http://stackoverflow.com/questions/9216138/find-the-day-of-a-week-in-r)
 * For Sunday is 0 and saturday is 6.
-```{r}
+```{r echo=TRUE}
 myDfFilled$day <- 
     ifelse(
         as.POSIXlt(as.Date(myDfFilled$date)
@@ -196,12 +196,12 @@ head(myDfFilled)
 ### something like the following, which was creating using simulated data:
 
 * Prepares the data.
-```{r}
+```{r echo=TRUE}
 averagedAllWeek <- aggregate(steps~interval+day, data=myDfFilled, sum)
 ```
 
 [reference facets ggplot2](http://docs.ggplot2.org/0.9.3.1/facet_grid.html)
-```{r}
+```{r echo=TRUE}
 ga <- ggplot(data = averagedAllWeek, aes(x=interval, y = steps))
 ga <- ga + geom_line()
 ga <- ga + facet_grid(day~.)

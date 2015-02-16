@@ -42,6 +42,9 @@ head(myDf)
 
 ## What is mean total number of steps taken per day?
 
+### 1. Make a histogram of the total number of steps taken each day
+
+* prepares the data.
 
 ```r
 library(ggplot2)
@@ -65,9 +68,6 @@ head(stepsByDay)
 ## 5 2012-10-06 15420
 ## 6 2012-10-07 11015
 ```
-
-
-### 1. Make a histogram of the total number of steps taken each day
 
 
 ```r
